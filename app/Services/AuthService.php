@@ -27,7 +27,7 @@ class AuthService
             $token = Auth::user()->createToken($tokenName);
             return $token->plainTextToken;
         } catch (\Throwable $e) {
-            Log::channel('api.auth')->error($e);
+            Log::error($e);
             return null;
         }
     }
@@ -38,7 +38,7 @@ class AuthService
             Auth::user()->currentAccessToken()->delete();
             return true;
         } catch (\Throwable $e) {
-            Log::channel('api.auth')->error($e);
+            Log::error($e);
             return false;
         }
     }
@@ -49,7 +49,7 @@ class AuthService
             Auth::user()->tokens()->delete();
             return true;
         } catch (\Throwable $e) {
-            Log::channel('api.auth')->error($e);
+            Log::error($e);
             return false;
         }
     }
