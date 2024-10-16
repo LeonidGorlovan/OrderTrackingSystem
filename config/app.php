@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'password_min' => env('PASSWORD_MIN', 8),
+    'password_max' => env('PASSWORD_MAX', 32),
+
 ];
