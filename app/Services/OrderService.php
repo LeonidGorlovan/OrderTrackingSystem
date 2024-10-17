@@ -11,7 +11,7 @@ class OrderService
 {
     public function getAll(): LengthAwarePaginator
     {
-        return Order::query()->paginate();
+        return Order::query()->orderBy('id')->paginate();
     }
 
     public function getOne(int|null $id): Order|Collection|Builder|array|null
@@ -45,5 +45,17 @@ class OrderService
         }
 
         return false;
+    }
+
+    public function changeStatus(int $id, array $data): Order
+    {
+        $order = Order::query()->findOrFail($id);
+
+        if(!empty($order)) {
+            $order->status = $data['status'];
+            $order->save();
+        }
+
+        return $order;
     }
 }

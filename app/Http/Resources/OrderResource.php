@@ -19,7 +19,7 @@ class OrderResource extends JsonResource
             'user_id' => (int) $this->user_id,
             'product_name' => $this->product_name,
             'amount' => (float) $this->amount,
-            'status' => (int) $this->status,
+            'status' => $this->status,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

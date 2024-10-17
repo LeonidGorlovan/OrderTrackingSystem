@@ -19,7 +19,7 @@ return new class extends Migration
                     ->restrictOnUpdate();
             $table->string('product_name');
             $table->decimal('amount')->default(0);
-            $table->unsignedSmallInteger('status')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

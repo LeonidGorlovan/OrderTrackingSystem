@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Scopes\AuthUserScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +37,7 @@ class Order extends Model
 
         static::creating(function (Order $order) {
             $order->user_id = Auth::id();
+            $order->status = OrderStatusEnum::new->name;
         });
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
+use App\Http\Requests\ChangeStatusOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
@@ -83,5 +85,26 @@ class OrderController extends Controller
             'status' => false,
             'message' => 'failed to delete order for id ' . $order,
         ]);
+    }
+
+    public function changeStatus(ChangeStatusOrderRequest $request, $order)
+    {
+        try {
+            $order = $this->orderService->changeStatus($order, $request->validated());
+            return OrderResource::make($order);
+        } catch (ModelNotFoundException $exception) {
+            Log::error('could not find an order for id ' . $order . ' for the update status');
+
+            return response()->json([
+                'result' => false,
+                'message' => 'could not find an order for id ' . $order . ' for the update status',
+                'description' => $exception->getMessage(),
+            ]);
+        }
+    }
+
+    public function listStatus()
+    {
+        return OrderStatusEnum::array();
     }
 }

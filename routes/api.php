@@ -27,5 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::get('/order/list-status', [OrderController::class, 'listStatus']);
+    Route::put('/order/{order}/change-status', [OrderController::class, 'changeStatus']);
     Route::apiResource('/order', OrderController::class);
 });

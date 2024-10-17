@@ -14,7 +14,6 @@ class UpdateOrderRequest extends FormRequest
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::unique('orders', 'product_name')->ignore($id)],
             'amount' => ['required', 'numeric'],
-            'status' => ['required'],
         ];
     }
 }

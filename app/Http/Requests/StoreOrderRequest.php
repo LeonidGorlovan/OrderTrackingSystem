@@ -12,7 +12,6 @@ class StoreOrderRequest extends FormRequest
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::unique('orders', 'product_name')],
             'amount' => ['required', 'numeric'],
-            'status' => ['required'],
         ];
     }
 }
