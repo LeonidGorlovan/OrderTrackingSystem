@@ -9,9 +9,9 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|string|min:' . config('app.password_min') . '|max:' . config('app.password_max'),
+            'name' => ['required', 'string' , 'max:255'],
+            'email' => ['required', 'email' , 'max:255', 'unique:users'],
+            'password' => ['required', 'string' , 'min:' . config('app.password_min'), 'max:' . config('app.password_max')],
         ];
     }
 }

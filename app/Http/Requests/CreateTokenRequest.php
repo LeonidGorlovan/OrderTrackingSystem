@@ -14,8 +14,8 @@ class CreateTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:' . config('app.password_min') . '|max:' . config('app.password_max'),
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required', 'min:' . config('app.password_min'), 'max:' . config('app.password_max')],
         ];
     }
 }
