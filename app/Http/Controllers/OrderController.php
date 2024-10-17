@@ -7,8 +7,11 @@ use App\Http\Requests\ChangeStatusOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Notifications\OrderChangeStatusNotification;
+use App\Notifications\OrderNewNotification;
 use App\Services\OrderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
@@ -29,6 +32,9 @@ class OrderController extends Controller
     {
         try {
             $order = $this->orderService->save($request->validated());
+
+            Auth::user()->notify(new OrderNewNotification($order));
+
             return OrderResource::make($order);
         } catch (\Throwable $exception) {
             Log::error('failed to create an order');
@@ -91,6 +97,8 @@ class OrderController extends Controller
     {
         try {
             $order = $this->orderService->changeStatus($order, $request->validated());
+
+            Auth::user()->notify(new OrderChangeStatusNotification($order, $request->validated()));
 
             return response()->json([
                 'result' => true,
