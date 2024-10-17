@@ -37,7 +37,7 @@ class OrderController extends Controller
                 'result' => false,
                 'message' => 'failed to create an order',
                 'description' => $exception->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
@@ -50,7 +50,7 @@ class OrderController extends Controller
                 'result' => false,
                 'message' => 'could not find order by id ' . $order,
                 'description' => $exception->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
@@ -66,7 +66,7 @@ class OrderController extends Controller
                 'result' => false,
                 'message' => 'could not find an order for id ' . $order . ' for the update',
                 'description' => $exception->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
@@ -84,14 +84,18 @@ class OrderController extends Controller
         return response()->json([
             'status' => false,
             'message' => 'failed to delete order for id ' . $order,
-        ]);
+        ], 400);
     }
 
     public function changeStatus(ChangeStatusOrderRequest $request, $order)
     {
         try {
             $order = $this->orderService->changeStatus($order, $request->validated());
-            return OrderResource::make($order);
+
+            return response()->json([
+                'result' => true,
+                'message' => 'status update',
+            ]);
         } catch (ModelNotFoundException $exception) {
             Log::error('could not find an order for id ' . $order . ' for the update status');
 
@@ -99,7 +103,7 @@ class OrderController extends Controller
                 'result' => false,
                 'message' => 'could not find an order for id ' . $order . ' for the update status',
                 'description' => $exception->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
